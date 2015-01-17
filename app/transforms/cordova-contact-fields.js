@@ -1,6 +1,7 @@
-import BasicArrayTransform from 'cordova-contact-adapter/transforms/basic-array';
+import CordovaBasicArrayTransform from '../transforms/cordova-basic-array';
 
 /**
  * @class CordovaContactFieldsTransform
+ * @extends CordovaBasicArrayTransform
  */
-export default BasicArrayTransform.extend({});
+export default CordovaBasicArrayTransform.extend({});

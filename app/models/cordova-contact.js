@@ -1,7 +1,9 @@
 import DS from 'ember-data';
+import Ember from 'ember';
 
 /**
  * @class CordovaContact
+ * @extends DS.Model
  */
 export default DS.Model.extend({
   /**
@@ -31,6 +33,26 @@ export default DS.Model.extend({
    * @type {Ember.ObjectProxy}
    */
   name: DS.attr('cordova-contact-name'),
+
+  /**
+   * Any name, using the first available non empty name
+   * @property anyName
+   * @type {string}
+   */
+  anyName: Ember.computed.any('displayName', 'nickname', 'name.formatted'),
+
+  /**
+   * First available picture
+   * @property anyPhotoUrl
+   * @type {string}
+   */
+  anyPhotoUrl: Ember.computed('photos.@each.value', 'photos.@each.type', function () {
+    var url = this.get('photos').findBy('type', 'url');
+    if (url && (url = url.get('value')) && /^\//.test(url)) {
+      url = 'file://' + url;
+    }
+    return url;
+  }).readOnly(),
 
   /**
    * Phone numbers of the contact
@@ -83,8 +105,22 @@ export default DS.Model.extend({
 
   /**
    * Organisations of the contact
-   * @property organisations
+   * @property organizations
    * @type {Ember.ArrayProxy}
    */
-  organisations: DS.attr('cordova-contact-organizations')
+  organizations: DS.attr('cordova-contact-organizations'),
+
+  /**
+   * The note
+   * @property note
+   * @type {string}
+   */
+  note: DS.attr('string'),
+
+  /**
+   * Internal RAW ID
+   * @property rawId
+   * @type {string}
+   */
+  rawId: DS.attr('string')
 });

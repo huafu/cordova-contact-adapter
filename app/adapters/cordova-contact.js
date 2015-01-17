@@ -1,17 +1,6 @@
 import DS from 'ember-data';
-import {RSVP, run} from 'ember';
 import Ember from 'ember';
 
-
-/**
- * Whether we have the contact library or not
- *
- * @function hasContactLib
- * @return {boolean}
- */
-function hasContactLib() {
-  return typeof navigator.contact !== 'undefined';
-}
 
 /**
  * Get a promise resolving to the contacts lib if present
@@ -20,11 +9,11 @@ function hasContactLib() {
  * @return {Promise}
  */
 function contactsLib() {
-  if (hasContactLib()) {
-    return RSVP.resolve(navigator.contact);
+  if (typeof navigator.contacts !== 'undefined') {
+    return Ember.RSVP.resolve(navigator.contacts);
   }
   else {
-    return RSVP.reject(new Error('No device contact library found.'));
+    return Ember.RSVP.reject(new Error('No device contact library found.'));
   }
 }
 
@@ -60,6 +49,7 @@ function parseQuery(query, cdvContacts) {
 
 /**
  * @class CordovaContactAdapter
+ * @extends DS.Adapter
  */
 export default DS.Adapter.extend({
   /**
@@ -68,13 +58,13 @@ export default DS.Adapter.extend({
   find: function (store, type, id) {
     return contactsLib().then(function (cdvContacts) {
       var options = {filter: '' + id, multiple: false};
-      return new RSVP.Promise(function (resolve, reject) {
+      return new Ember.RSVP.Promise(function (resolve, reject) {
         cdvContacts.find(
           [cdvContacts.fieldType.id],
           function (contacts) {
-            run(null, resolve, contacts[0]);
+            Ember.run(null, resolve, contacts[0]);
           },
-          run.bind(null, reject),
+          Ember.run.bind(null, reject),
           options);
       });
     });
@@ -86,9 +76,9 @@ export default DS.Adapter.extend({
   createRecord: function (store, type, record) {
     var _this = this;
     return contactsLib().then(function (cdvContacts) {
-      return new RSVP.Promise(function (resolve, reject) {
+      return new Ember.RSVP.Promise(function (resolve, reject) {
         var data = _this.serialize(record, {includeId: true});
-        cdvContacts.create(data).save(run.bind(null, resolve), run.bind(null, reject));
+        cdvContacts.create(data).save(Ember.run.bind(null, resolve), Ember.run.bind(null, reject));
       });
     });
   },
@@ -97,8 +87,8 @@ export default DS.Adapter.extend({
    * @inheritDoc
    */
   updateRecord: function (store, type, record) {
-    return new RSVP.Promise(function (resolve, reject) {
-      record.get('content').save(run.bind(null, resolve), run.bind(null, reject));
+    return new Ember.RSVP.Promise(function (resolve, reject) {
+      record.get('content').save(Ember.run.bind(null, resolve), Ember.run.bind(null, reject));
     });
   },
 
@@ -106,8 +96,8 @@ export default DS.Adapter.extend({
    * @inheritDoc
    */
   deleteRecord: function (store, type, record) {
-    return new RSVP.Promise(function (resolve, reject) {
-      record.get('content').remove(run.bind(null, resolve), run.bind(null, reject));
+    return new Ember.RSVP.Promise(function (resolve, reject) {
+      record.get('content').remove(Ember.run.bind(null, resolve), Ember.run.bind(null, reject));
     });
   },
 
@@ -117,13 +107,13 @@ export default DS.Adapter.extend({
   findAll: function (store, type, sinceToken) {
     return contactsLib().then(function (cdvContacts) {
       var options = {filter: '', multiple: true};
-      return new RSVP.Promise(function (resolve, reject) {
+      return new Ember.RSVP.Promise(function (resolve, reject) {
         cdvContacts.find(
           [cdvContacts.fieldType.id],
           function (contacts) {
-            run(null, resolve, contacts);
+            Ember.run(null, resolve, contacts);
           },
-          run.bind(null, reject),
+          Ember.run.bind(null, reject),
           options);
       });
     });
@@ -134,16 +124,16 @@ export default DS.Adapter.extend({
    */
   findQuery: function (store, type, query/*, recordArray*/) {
     return contactsLib().then(function (cdvContacts) {
-      return new RSVP.Promise(function (resolve, reject) {
+      return new Ember.RSVP.Promise(function (resolve, reject) {
         var options, parsedQuery;
         parsedQuery = parseQuery(query, cdvContacts);
         options = {filter: parsedQuery.filter, multiple: true};
         cdvContacts.find(
           parsedQuery.fields,
           function (contacts) {
-            run(null, resolve, contacts);
+            Ember.run(null, resolve, contacts);
           },
-          run.bind(null, reject),
+          Ember.run.bind(null, reject),
           options);
       });
     });

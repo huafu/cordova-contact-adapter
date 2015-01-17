@@ -57,6 +57,11 @@ An adapter and model for use with cordova contacts plugin
     - `title`
     - `urls`
 
+* There are 2 special properties on each model as well as the core ones from cordova contacts plugin:
+
+    - `anyName`: to access to the first available name of the contact between all fields from cordova
+    - `anyPhotoUrl`: to access the first available photo as an URL (normally `file://`)
+
 ## Running Tests
 
 * `ember test`

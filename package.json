@@ -11,7 +11,7 @@
     "build": "ember build",
     "test": "ember test"
   },
-  "repository": "",
+  "repository": "https://github.com/huafu/cordova-contact-adapter.git",
   "engines": {
     "node": ">= 0.10.0"
   },
