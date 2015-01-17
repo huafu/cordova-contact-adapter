@@ -1,6 +1,6 @@
 # cordova-contact-adapter
 
-An adapter and model for use with cordova contact plugin
+An adapter and model for use with cordova contacts plugin
 
 ## Installation
 
@@ -10,6 +10,7 @@ An adapter and model for use with cordova contact plugin
 ## Using
 
 * Simply use the `cordova-contact` model as you'd simply do with any other `ember-data` model:
+
     ```js
     // file: app/routes/contacts.js
     import Ember from 'ember';
@@ -20,38 +21,41 @@ An adapter and model for use with cordova contact plugin
       }
     });
     ```
+
 * When querying for specific contacts on multiple fields, be sure to use the same filter value for all the query parameters:
+
     ```js
     this.store.find('cordova-contact', {name: 'huafu', nickname: 'huafu', displayName: 'huafu'});
     ```
+
     Available fields for searching are the same as `cordova.contacts.fieldType`:
-    - addresses
-    - birthday
-    - categories
-    - country
-    - department
-    - displayName
-    - emails
-    - familyName
-    - formatted
-    - givenName
-    - honorificPrefix
-    - honorificSuffix
-    - id
-    - ims
-    - locality
-    - middleName
-    - name
-    - nickname
-    - note
-    - organizations
-    - phoneNumbers
-    - photos
-    - postalCode
-    - region
-    - streetAddress
-    - title
-    - urls
+    - `addresses`
+    - `birthday`
+    - `categories`
+    - `country`
+    - `department`
+    - `displayName`
+    - `emails`
+    - `familyName`
+    - `formatted`
+    - `givenName`
+    - `honorificPrefix`
+    - `honorificSuffix`
+    - `id`
+    - `ims`
+    - `locality`
+    - `middleName`
+    - `name`
+    - `nickname`
+    - `note`
+    - `organizations`
+    - `phoneNumbers`
+    - `photos`
+    - `postalCode`
+    - `region`
+    - `streetAddress`
+    - `title`
+    - `urls`
 
 ## Running Tests
 
