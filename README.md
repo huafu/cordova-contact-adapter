@@ -61,6 +61,9 @@ An adapter and model for use with cordova contacts plugin
 
     - `anyName`: to access to the first available name of the contact between all fields from cordova
     - `anyPhotoUrl`: to access the first available photo as an URL (normally `file://`)
+    - `anyPhoneNumber`: to access the first available phone number
+    - `anyURL`: to access the first available URL
+    - `anyEmail`: to access the first available email address
 
 ## Running Tests
 
