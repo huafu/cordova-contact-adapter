@@ -1,6 +1,8 @@
 import DS from 'ember-data';
 import Ember from 'ember';
 
+var get = Ember.get;
+
 /**
  * @class CordovaContact
  * @extends DS.Model
@@ -48,7 +50,7 @@ export default DS.Model.extend({
    */
   anyPhotoUrl: Ember.computed('photos.@each.value', 'photos.@each.type', function () {
     var url = this.get('photos').findBy('type', 'url');
-    if (url && (url = url.get('value')) && /^\//.test(url)) {
+    if (url && (url = get(url, 'value')) && /^\//.test(url)) {
       url = 'file://' + url;
     }
     return url;
@@ -60,6 +62,17 @@ export default DS.Model.extend({
    * @type {Ember.ArrayProxy}
    */
   phoneNumbers: DS.attr('cordova-contact-fields'),
+
+  /**
+   * The first available phone number
+   * @property anyPhoneNumber
+   * @type {string}
+   */
+  anyPhoneNumber: Ember.computed('phoneNumbers.@each.value', function () {
+    var tel = this.get('phoneNumbers').findBy('value');
+    return tel ? get(tel, 'value') : null;
+  }).readOnly(),
+
 
   /**
    * Photos of the contact
@@ -83,11 +96,31 @@ export default DS.Model.extend({
   urls: DS.attr('cordova-contact-fields'),
 
   /**
+   * The first available URL
+   * @property anyURL
+   * @type {string}
+   */
+  anyURL: Ember.computed('urls.@each.value', function () {
+    var url = this.get('urls').findBy('value');
+    return url ? get(url, 'value') : null;
+  }).readOnly(),
+
+  /**
    * Email addresses of the contact
    * @property emails
    * @type {Ember.ArrayProxy}
    */
   emails: DS.attr('cordova-contact-fields'),
+
+  /**
+   * The first available email
+   * @property anyEmail
+   * @type {string}
+   */
+  anyEmail: Ember.computed('emails.@each.value', function () {
+    var email = this.get('emails').findBy('value');
+    return email ? get(email, 'value') : null;
+  }).readOnly(),
 
   /**
    * Instant messaging ids of the contact
