@@ -2,6 +2,6 @@ import DS from 'ember-data';
 
 /**
  * @class CordovaContactSerializer
- * @extends DS.RESTSerializer
+ * @extends DS.JSONSerializer
  */
-export default DS.RESTSerializer.extend({});
+export default DS.JSONSerializer.extend({});
