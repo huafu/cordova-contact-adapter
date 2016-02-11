@@ -41,7 +41,7 @@ export default DS.Model.extend({
    * @property anyName
    * @type {string}
    */
-  anyName: Ember.computed.any('displayName', 'nickname', 'name.formatted'),
+  anyName: Ember.computed.or('displayName', 'nickname', 'name.formatted'),
 
   /**
    * First available picture
