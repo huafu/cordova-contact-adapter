@@ -127,7 +127,7 @@ export default DS.Adapter.extend({
       return new Ember.RSVP.Promise(function (resolve, reject) {
         var options, parsedQuery;
         parsedQuery = parseQuery(query, cdvContacts);
-        options = {filter: parsedQuery.filter, multiple: true};
+        options = {filter: parsedQuery.filter, multiple: true, desiredFields: ['displayName', 'phoneNumbers'], hasPhoneNumber: true};
         cdvContacts.find(
           parsedQuery.fields,
           function (contacts) {
