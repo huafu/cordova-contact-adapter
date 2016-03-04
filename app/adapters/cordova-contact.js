@@ -122,7 +122,7 @@ export default DS.Adapter.extend({
   /**
    * @inheritDoc
    */
-  findQuery: function (store, type, query/*, recordArray*/) {
+  query: function (store, type, query/*, recordArray*/) {
     return contactsLib().then(function (cdvContacts) {
       return new Ember.RSVP.Promise(function (resolve, reject) {
         var options, parsedQuery;
