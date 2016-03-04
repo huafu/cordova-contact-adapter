@@ -106,7 +106,7 @@ export default DS.Adapter.extend({
    */
   findAll: function (store, type, sinceToken) {
     return contactsLib().then(function (cdvContacts) {
-      var options = {filter: '', multiple: true};
+      var options = {filter: '', multiple: true, desiredFields: ['displayName', 'phoneNumbers'], hasPhoneNumber: true};
       return new Ember.RSVP.Promise(function (resolve, reject) {
         cdvContacts.find(
           [cdvContacts.fieldType.id],
