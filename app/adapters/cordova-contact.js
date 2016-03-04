@@ -106,7 +106,7 @@ export default DS.Adapter.extend({
    */
   findAll: function (store, type, sinceToken) {
     return contactsLib().then(function (cdvContacts) {
-      var options = {filter: '', multiple: true};
+      var options = {filter: '', multiple: true, hasPhoneNumber: true, desiredFields: [navigator.contacts.fieldType.name, navigator.contacts.fieldType.phoneNumbers, navigator.contacts.fieldType.displayName]};
       return new Ember.RSVP.Promise(function (resolve, reject) {
         cdvContacts.find(
           [cdvContacts.fieldType.id],
@@ -122,12 +122,12 @@ export default DS.Adapter.extend({
   /**
    * @inheritDoc
    */
-  findQuery: function (store, type, query/*, recordArray*/) {
+  query: function (store, type, query/*, recordArray*/) {
     return contactsLib().then(function (cdvContacts) {
       return new Ember.RSVP.Promise(function (resolve, reject) {
         var options, parsedQuery;
         parsedQuery = parseQuery(query, cdvContacts);
-        options = {filter: parsedQuery.filter, multiple: true};
+        options = {filter: parsedQuery.filter, multiple: true, hasPhoneNumber: true};
         cdvContacts.find(
           parsedQuery.fields,
           function (contacts) {
